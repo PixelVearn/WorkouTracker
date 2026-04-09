@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ workout.name }} ({{ workout.date }})</h2>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="{% url 'exercise_create' workout.pk %}">Add exercise</a>
+    <a class="btn" href="{% url 'workout_list' %}">Back</a>
+  </div>
+
+  <h3>Exercises</h3>
+
+  <ul class="list">
+    {% for ex in workout.exercises.all %}
+      <li class="card">
+        <div class="card-title">{{ ex.name }}</div>
+        <div class="meta">{{ ex.reps }} reps · {{ ex.weight }} kg</div>
+      </li>
+    {% empty %}
+      <li class="card">
+        <div class="meta">No exercises yet.</div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

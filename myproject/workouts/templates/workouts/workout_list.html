@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your workouts</h2>
+
+  <div class="actions">
+    <a class="btn btn-primary" href="{% url 'workout_create' %}">Create workout</a>
+  </div>
+
+  {% if workouts %}
+    <ul class="list">
+      {% for workout in workouts %}
+        <li class="card">
+          <div class="card-title">
+            <a href="{% url 'workout_detail' workout.pk %}">{{ workout.name }}</a>
+          </div>
+          <div class="meta">{{ workout.date }}</div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No workouts yet.</p>
+  {% endif %}
+{% endblock %}
