@@ -12,7 +12,7 @@
       <div class="container topbar-inner">
         <div class="brand">
           <a class="brand-title" href="{% url 'workout_list' %}">Workout Tracker</a>
-          <span class="badge">Django</span>
+          <span class="badge">WorkouTracker</span>
         </div>
 
         <nav class="nav">
@@ -24,6 +24,7 @@
             </form>
           {% else %}
             <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+            <a class="btn" href="{% url 'signup' %}">Sign up</a>
           {% endif %}
         </nav>
       </div>

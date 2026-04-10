@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import ExerciseForm, WorkoutForm
+from .forms import ExerciseForm, SignUpForm, WorkoutForm
 from .models import Exercise, Workout
 
 
@@ -58,3 +59,16 @@ class ExerciseCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['workout'] = self.workout
         return context
+
+
+class SignUpView(CreateView):
+    form_class = SignUpForm
+    template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)
+        return response
+
+    def get_success_url(self):
+        return reverse('workout_list')
