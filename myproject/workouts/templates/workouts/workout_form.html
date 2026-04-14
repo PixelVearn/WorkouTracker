@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Create workout</h2>
+  {% if form.instance.pk %}
+    <h2>Edit workout</h2>
+  {% else %}
+    <h2>Create workout</h2>
+  {% endif %}
 
   <form class="form" method="post">
     {% csrf_token %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Delete exercise</h2>
+  <p class="help">Are you sure you want to delete "{{ object.name }}" from "{{ workout.name }}"?</p>
+
+  <form class="form" method="post">
+    {% csrf_token %}
+    <div class="actions">
+      <button class="btn btn-danger" type="submit">Yes, delete</button>
+      <a class="btn" href="{% url 'workout_detail' workout.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

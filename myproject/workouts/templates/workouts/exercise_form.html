@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Add exercise to: {{ workout.name }} ({{ workout.date }})</h2>
+  {% if form.instance.pk %}
+    <h2>Edit exercise: {{ workout.name }} ({{ workout.date }})</h2>
+  {% else %}
+    <h2>Add exercise to: {{ workout.name }} ({{ workout.date }})</h2>
+  {% endif %}
 
   <form class="form" method="post">
     {% csrf_token %}

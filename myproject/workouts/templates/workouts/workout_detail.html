@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>{{ workout.name }} ({{ workout.date }})</h2>
+  <h2>
+    {{ workout.name }} ({{ workout.date }})
+    {% if workout.finished %}
+      <span class="badge">Finished</span>
+    {% endif %}
+  </h2>
 
   <div class="actions">
     <a class="btn btn-primary" href="{% url 'exercise_create' workout.pk %}">Add exercise</a>
+    <a class="btn" href="{% url 'workout_edit' workout.pk %}">Edit workout</a>
+    <a class="btn btn-danger" href="{% url 'workout_delete' workout.pk %}">Delete workout</a>
+
+    <form method="post" action="{% url 'workout_toggle_finished' workout.pk %}" style="display:inline;">
+      {% csrf_token %}
+      {% if workout.finished %}
+        <button class="btn" type="submit">Mark as not finished</button>
+      {% else %}
+        <button class="btn" type="submit">Finish workout</button>
+      {% endif %}
+    </form>
+
     <a class="btn" href="{% url 'workout_list' %}">Back</a>
   </div>
 
@@ -12,9 +29,26 @@
 
   <ul class="list">
     {% for ex in workout.exercises.all %}
-      <li class="card">
-        <div class="card-title">{{ ex.name }}</div>
+      <li class="card {% if ex.completed %}exercise-completed{% endif %}">
+        <div class="card-title">
+          {% if ex.completed %}
+            <span class="exercise-icon" aria-hidden="true">✓</span>
+          {% endif %}
+          <span class="exercise-name">{{ ex.name }}</span>
+        </div>
         <div class="meta">{{ ex.reps }} reps · {{ ex.weight }} kg</div>
+        <div class="actions">
+          <form method="post" action="{% url 'exercise_toggle_completed' workout.pk ex.pk %}" style="display:inline;">
+            {% csrf_token %}
+            {% if ex.completed %}
+              <button class="btn" type="submit">Undo</button>
+            {% else %}
+              <button class="btn" type="submit">Done</button>
+            {% endif %}
+          </form>
+          <a class="btn" href="{% url 'exercise_edit' workout.pk ex.pk %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'exercise_delete' workout.pk ex.pk %}">Delete</a>
+        </div>
       </li>
     {% empty %}
       <li class="card">

@@ -173,6 +173,28 @@ h3 {
   margin: 0 0 6px;
 }
 
+.exercise-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(110, 168, 254, 0.45);
+  color: var(--primary);
+  font-size: 12px;
+}
+
+.exercise-completed {
+  opacity: 0.85;
+}
+
+.exercise-completed .exercise-name {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
 .meta {
   color: var(--muted);
   font-size: 13px;
