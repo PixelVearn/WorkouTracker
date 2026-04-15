@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Dashboard</h2>
+
+  <div class="stats">
+    <div class="card">
+      <div class="card-title">Workouts</div>
+      <div class="meta">Total: {{ workouts_total }}</div>
+      <div class="meta">Finished: {{ workouts_finished }}</div>
+      <div class="meta">This week: {{ workouts_week }}</div>
+      <div class="meta">This month: {{ workouts_month }}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Exercises</div>
+      <div class="meta">Total: {{ exercises_total }}</div>
+      <div class="meta">Completed: {{ exercises_completed }}</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Volume</div>
+      <div class="meta">Total: {{ total_volume }}</div>
+      <div class="meta">Completed: {{ total_volume_completed }}</div>
+      <div class="help">Volume = reps × weight</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a class="btn" href="{% url 'workout_list' %}">Back to workouts</a>
+  </div>
+{% endblock %}

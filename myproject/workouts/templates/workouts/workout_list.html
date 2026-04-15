@@ -5,7 +5,47 @@
 
   <div class="actions">
     <a class="btn btn-primary" href="{% url 'workout_create' %}">Create workout</a>
+    <a class="btn" href="{% url 'dashboard' %}">View dashboard</a>
   </div>
+
+  <form class="filters" method="get">
+    <div>
+      <label>
+        Search
+        <input type="text" name="q" value="{{ q }}" placeholder="Workout name..." />
+      </label>
+    </div>
+
+    <div>
+      <label>
+        Finished
+        <select name="finished">
+          <option value="" {% if finished == '' %}selected{% endif %}>All</option>
+          <option value="1" {% if finished == '1' %}selected{% endif %}>Finished</option>
+          <option value="0" {% if finished == '0' %}selected{% endif %}>Not finished</option>
+        </select>
+      </label>
+    </div>
+
+    <div>
+      <label>
+        From
+        <input type="date" name="date_from" value="{{ date_from }}" />
+      </label>
+    </div>
+
+    <div>
+      <label>
+        To
+        <input type="date" name="date_to" value="{{ date_to }}" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit">Apply</button>
+      <a class="btn" href="{% url 'workout_list' %}">Reset</a>
+    </div>
+  </form>
 
   {% if workouts %}
     <ul class="list">
@@ -13,6 +53,9 @@
         <li class="card">
           <div class="card-title">
             <a href="{% url 'workout_detail' workout.pk %}">{{ workout.name }}</a>
+            {% if workout.finished %}
+              <span class="badge">Finished</span>
+            {% endif %}
           </div>
           <div class="meta">{{ workout.date }}</div>
         </li>

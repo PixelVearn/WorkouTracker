@@ -122,6 +122,41 @@ h3 {
   margin: 14px 0 16px;
 }
 
+.filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(17, 31, 56, 0.35);
+}
+
+.filters .actions {
+  margin: 0;
+  align-items: end;
+}
+
+@media (max-width: 860px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 10px 0 18px;
+}
+
+@media (max-width: 860px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -217,6 +252,29 @@ input, select, textarea {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.05);
   color: var(--text);
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(167, 179, 211, 0.7);
+}
+
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background: #ffffff !important;
+  color: #0b1220 !important;
+}
+
+select optgroup {
+  background: #ffffff !important;
+  color: #0b1220 !important;
+}
+
+select option:checked {
+  background: #6ea8fe !important;
+  color: #0b1220 !important;
 }
 
 input:focus, select:focus, textarea:focus {
