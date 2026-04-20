@@ -58,6 +58,9 @@
             {% endif %}
           </div>
           <div class="meta">{{ workout.date }}</div>
+          {% if workout.notes %}
+            <div class="note-preview">{{ workout.notes|truncatechars:120 }}</div>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

@@ -230,6 +230,39 @@ h3 {
   color: var(--muted);
 }
 
+.note {
+  margin: 10px 0 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(17, 31, 56, 0.35);
+}
+
+.note-body {
+  margin-top: 6px;
+  color: rgba(234, 240, 255, 0.92);
+}
+
+.note-inline {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(17, 31, 56, 0.35);
+  color: rgba(234, 240, 255, 0.92);
+  font-size: 13px;
+}
+
+.note-preview {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(17, 31, 56, 0.25);
+  color: rgba(234, 240, 255, 0.88);
+  font-size: 13px;
+}
+
 .meta {
   color: var(--muted);
   font-size: 13px;

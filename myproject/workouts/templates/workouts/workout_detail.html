@@ -8,6 +8,13 @@
     {% endif %}
   </h2>
 
+  {% if workout.notes %}
+    <div class="note">
+      <div class="meta">Notes</div>
+      <div class="note-body">{{ workout.notes|linebreaksbr }}</div>
+    </div>
+  {% endif %}
+
   <div class="actions">
     <a class="btn btn-primary" href="{% url 'exercise_create' workout.pk %}">Add exercise</a>
     <a class="btn" href="{% url 'workout_edit' workout.pk %}">Edit workout</a>
@@ -37,6 +44,9 @@
           <span class="exercise-name">{{ ex.name }}</span>
         </div>
         <div class="meta">{{ ex.reps }} reps · {{ ex.weight }} kg</div>
+        {% if ex.notes %}
+          <div class="note-inline">{{ ex.notes|linebreaksbr }}</div>
+        {% endif %}
         <div class="actions">
           <form method="post" action="{% url 'exercise_toggle_completed' workout.pk ex.pk %}" style="display:inline;">
             {% csrf_token %}
