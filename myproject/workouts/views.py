@@ -6,6 +6,7 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
 import datetime
+import json
 
 from django.db.models import DecimalField, ExpressionWrapper, F, Sum
 from django.utils import timezone
@@ -57,6 +58,63 @@ class WorkoutListView(LoginRequiredMixin, ListView):
         context['finished'] = (self.request.GET.get('finished') or '').strip()
         context['date_from'] = (self.request.GET.get('date_from') or '').strip()
         context['date_to'] = (self.request.GET.get('date_to') or '').strip()
+        return context
+
+
+class AnalyticsView(LoginRequiredMixin, TemplateView):
+    template_name = 'workouts/analytics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        workouts_qs = Workout.objects.filter(user=user)
+        exercises_qs = Exercise.objects.filter(workout__user=user)
+
+        volume_expr = ExpressionWrapper(
+            F('reps') * F('weight'),
+            output_field=DecimalField(max_digits=12, decimal_places=2),
+        )
+
+        today = timezone.localdate()
+        this_week_start = today - datetime.timedelta(days=today.weekday())
+
+        labels = []
+        volume_total = []
+        volume_completed = []
+        workouts_count = []
+        exercises_completed_count = []
+
+        weeks = 8
+        for i in range(weeks - 1, -1, -1):
+            week_start = this_week_start - datetime.timedelta(days=7 * i)
+            week_end = week_start + datetime.timedelta(days=7)
+
+            labels.append(week_start.strftime('%b %d'))
+            workouts_count.append(workouts_qs.filter(date__gte=week_start, date__lt=week_end).count())
+            exercises_completed_count.append(
+                exercises_qs.filter(workout__date__gte=week_start, workout__date__lt=week_end, completed=True).count()
+            )
+
+            v_total = exercises_qs.filter(workout__date__gte=week_start, workout__date__lt=week_end).aggregate(
+                total=Sum(volume_expr)
+            )['total'] or 0
+            v_completed = exercises_qs.filter(
+                workout__date__gte=week_start,
+                workout__date__lt=week_end,
+                completed=True,
+            ).aggregate(total=Sum(volume_expr))['total'] or 0
+
+            volume_total.append(float(v_total))
+            volume_completed.append(float(v_completed))
+
+        context['labels_json'] = json.dumps(labels)
+        context['volume_total_json'] = json.dumps(volume_total)
+        context['volume_completed_json'] = json.dumps(volume_completed)
+        context['workouts_count_json'] = json.dumps(workouts_count)
+        context['exercises_completed_count_json'] = json.dumps(exercises_completed_count)
+
+        context['weeks'] = weeks
         return context
 
 

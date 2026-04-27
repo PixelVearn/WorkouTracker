@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Analytics (last {{ weeks }} weeks)</h2>
+
+  <div class="row g-3">
+    <div class="col-12 col-lg-8">
+      <div class="card">
+        <div class="card-title">Weekly volume</div>
+        <div class="meta">Total vs completed</div>
+        <div style="height:320px;">
+          <canvas id="volumeChart"></canvas>
+        </div>
+        <div class="help">Volume = reps × weight</div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card">
+        <div class="card-title">Weekly activity</div>
+        <div style="height:320px;">
+          <canvas id="activityChart"></canvas>
+        </div>
+        <div class="help">Workouts created + exercises completed per week</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a class="btn" href="{% url 'dashboard' %}">Back to dashboard</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+  <script>
+    const labels = {{ labels_json|safe }};
+
+    const volumeTotal = {{ volume_total_json|safe }};
+    const volumeCompleted = {{ volume_completed_json|safe }};
+
+    const workoutsCount = {{ workouts_count_json|safe }};
+    const exercisesCompletedCount = {{ exercises_completed_count_json|safe }};
+
+    const gridColor = 'rgba(255, 255, 255, 0.10)';
+    const tickColor = 'rgba(234, 240, 255, 0.80)';
+
+    new Chart(document.getElementById('volumeChart'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Total volume',
+            data: volumeTotal,
+            borderColor: 'rgba(110, 168, 254, 0.95)',
+            backgroundColor: 'rgba(110, 168, 254, 0.18)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 3,
+          },
+          {
+            label: 'Completed volume',
+            data: volumeCompleted,
+            borderColor: 'rgba(40, 199, 111, 0.95)',
+            backgroundColor: 'rgba(40, 199, 111, 0.14)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: tickColor }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
+          },
+          y: {
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('activityChart'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Workouts',
+            data: workoutsCount,
+            backgroundColor: 'rgba(110, 168, 254, 0.35)',
+            borderColor: 'rgba(110, 168, 254, 0.95)',
+            borderWidth: 1,
+          },
+          {
+            label: 'Exercises completed',
+            data: exercisesCompletedCount,
+            backgroundColor: 'rgba(247, 180, 90, 0.30)',
+            borderColor: 'rgba(247, 180, 90, 0.95)',
+            borderWidth: 1,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: tickColor }
+          }
+        },
+        scales: {
+          x: {
+            stacked: false,
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { color: tickColor },
+            grid: { color: gridColor }
+          }
+        }
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+    AnalyticsView,
     DashboardView,
     ExerciseCreateView,
     ExerciseDeleteView,
@@ -17,6 +18,7 @@ from .views import (
 urlpatterns = [
     path('', WorkoutListView.as_view(), name='workout_list'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('analytics/', AnalyticsView.as_view(), name='analytics'),
     path('workouts/new/', WorkoutCreateView.as_view(), name='workout_create'),
     path('workouts/<int:pk>/', WorkoutDetailView.as_view(), name='workout_detail'),
     path('workouts/<int:pk>/edit/', WorkoutUpdateView.as_view(), name='workout_edit'),

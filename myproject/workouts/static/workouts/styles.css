@@ -84,6 +84,68 @@ a:hover {
   align-items: center;
   gap: 10px;
   color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-group {
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(15, 26, 46, 0.35);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.nav-right {
+  justify-content: flex-end;
+}
+
+.nav-link {
+  padding: 9px 12px;
+  border-radius: 999px;
+}
+
+.nav-link.is-active {
+  border-color: rgba(110, 168, 254, 0.55);
+  background: linear-gradient(180deg, rgba(110, 168, 254, 0.32), rgba(79, 140, 255, 0.18));
+  box-shadow: 0 0 0 4px rgba(110, 168, 254, 0.10);
+}
+
+.user-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+}
+
+.user-chip strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.user-chip-label {
+  font-size: 12px;
+}
+
+@media (max-width: 680px) {
+  .topbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav {
+    justify-content: space-between;
+  }
 }
 
 .nav strong {
